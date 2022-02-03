@@ -1,0 +1,5 @@
+geckodriver.*
+/csvs
+links.txt
+index.md
+.env

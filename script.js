@@ -4,6 +4,7 @@ var output = ''
 var style = 0
 var escapeNewLine = false
 var spaceComment = false
+var title = ''
 
 function fetchData(url) {
   output = ''
@@ -15,6 +16,7 @@ function fetchData(url) {
   http.onload = function() {
     data = http.response;
     const post = data[0].data.children[0].data
+    let subreddit = post.subreddit_name_prefixed.replace("r/", "")
     const comments = data[1].data.children
     displayTitle(post)
     output += "\n\n## Comments\n\n"
@@ -25,7 +27,7 @@ function fetchData(url) {
     var ouput_block = document.getElementById("ouput-block");
     ouput_block.removeAttribute("hidden");
     ouput_display.innerHTML = output;
-    download(output, 'output.md', 'text/plain')
+    download(output, `${subreddit}.${title}.md`, 'text/plain')
   }
 }
 
@@ -71,8 +73,13 @@ function download(text, name, type) {
 
 function displayTitle(post) {
   output += `# ${post.title}\n`
+  title = post.title.replace(/[\/\\#,+()$~%.'":*?<>{}]/g, '')
+  
   if (post.selftext) {
     output += `\n${post.selftext}\n`
+  } else {
+    output += `\n${post.url}\n`
+    output += `\n${post.url_overridden_by_dest}\n`
   }
   output += `\n[permalink](http://reddit.com${post.permalink})`
   output += `\nby *${post.author}* (↑ ${post.ups}/ ↓ ${post.downs})`
