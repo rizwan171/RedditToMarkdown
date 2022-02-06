@@ -3,3 +3,5 @@ geckodriver.*
 links.txt
 index.md
 .env
+*.csv
+__pycache__
