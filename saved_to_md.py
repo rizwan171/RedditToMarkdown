@@ -20,6 +20,14 @@ PATH_TO_DRIVER = os.getenv('PATH_TO_FIREFOX_DRIVER')
 INDEX_HTML = os.getenv('PATH_TO_INDEX_FILE')
 REDDIT_UTL = 'https://www.reddit.com'
 
+# flag to generate a txt file of links
+generateTxt = True
+linksFile = None
+
+# generate links txt if flag is true
+if generateTxt:
+  linksFile = open('links.txt', 'w', encoding='utf-8')
+
 # praw instance
 reddit = praw.Reddit(
   client_id=CLIENT_ID,
@@ -55,8 +63,10 @@ except:
 
 # loop through each and save
 for saved in saved_content:
-  # TODO remove if not needed # subreddit = saved.subreddit.display_name
   url = REDDIT_UTL + saved.permalink
+
+  if generateTxt:
+    linksFile.write(url + "\n")
 
   # load the url
   input_field = driver.find_element(By.ID, 'url')
@@ -76,5 +86,8 @@ for saved in saved_content:
 
   # unsave the post after downloaded
   saved.unsave()
+
+if generateTxt:
+  linksFile.close()
 
 driver.quit()
