@@ -18,6 +18,7 @@ USERNAME= os.getenv('REDDIT_USERNAME')
 PASSWORD= os.getenv('REDDIT_PASSWORD')
 PATH_TO_DRIVER = os.getenv('PATH_TO_FIREFOX_DRIVER')
 INDEX_HTML = os.getenv('PATH_TO_INDEX_FILE')
+PATH_TO_FIREFOX_EXE = os.getenv('PATH_TO_FIREFOX_EXE')
 REDDIT_UTL = 'https://www.reddit.com'
 
 # flag to generate a txt file of links
@@ -48,6 +49,8 @@ profile.set_preference("browser.helperApps.neverAsk.saveToDisk", "text/plain")
 
 # run in headless mode
 options = Options()
+options = Options()
+options.binary_location = PATH_TO_FIREFOX_EXE
 options.headless = True
 
 driver = webdriver.Firefox(executable_path=PATH_TO_DRIVER, firefox_profile=profile, options=options)
