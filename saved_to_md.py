@@ -88,7 +88,7 @@ for saved in saved_content:
   download_button.click()
 
   # unsave the post after downloaded
-  saved.unsave()
+  # saved.unsave()
 
 if generateTxt:
   linksFile.close()
